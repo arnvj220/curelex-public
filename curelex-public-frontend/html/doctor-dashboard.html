@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - CURELEX</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="dashboard-page doctor-dashboard">
+    <!-- Doctor Dashboard Header -->
+    <header class="dashboard-header-fixed">
+        <div class="header-container">
+            <a href="../index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="header-logo">
+                <i class="fas fa-heartbeat"></i> CURELEX
+            </div>
+            <div class="header-user">
+                <span id="doctorName">Welcome, Doctor</span>
+                <button class="btn btn-secondary btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-welcome">
+            <h1>Doctor Dashboard</h1>
+            <p>Manage your patients and appointments</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="statTotalPatients">-</span>
+                    <span class="stat-label">Total Patients</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-calendar-check"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="statTodayAppointments">-</span>
+                    <span class="stat-label">Today's Appointments</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-user-plus"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="statNewPatients">-</span>
+                    <span class="stat-label">New Patients This Month</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-prescription-bottle-alt"></i>
+                <div class="stat-info">
+                    <span class="stat-number" id="statPrescriptions">-</span>
+                    <span class="stat-label">Total Prescriptions</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Today's Schedule -->
+            <div class="dashboard-card full-width">
+                <div class="card-header">
+                    <i class="fas fa-calendar-day"></i>
+                    <h3>Today's Schedule</h3>
+                </div>
+                <div class="card-body">
+                    <div class="schedule-timeline" id="scheduleTimeline">
+                        <p style="color: var(--text-secondary);">Loading appointments...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Patients -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-user-injured"></i>
+                    <h3>Recent Patients</h3>
+                </div>
+                <div class="card-body">
+                    <div class="patients-list" id="recentPatientsList">
+                        <p style="color: var(--text-secondary);">Loading patients...</p>
+                    </div>
+                    <button class="btn btn-primary btn-full" style="margin-top: 1rem;" id="viewAllPatientsBtn">
+                        <i class="fas fa-users"></i> View All Patients
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pending Prescriptions -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-prescription"></i>
+                    <h3>Pending Prescriptions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="prescription-list" id="pendingPrescriptionsList">
+                        <p style="color: var(--text-secondary);">Loading prescriptions...</p>
+                    </div>
+                    <!-- Write Prescription Modal Trigger -->
+                    <button class="btn btn-primary btn-full" style="margin-top:1rem;" id="writePrescriptionBtn">
+                        <i class="fas fa-plus"></i> Write New Prescription
+                    </button>
+                </div>
+            </div>
+
+            <!-- Patient Requests -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>New Patient Requests</h3>
+                </div>
+                <div class="card-body">
+                    <div class="request-list" id="patientRequestsList">
+                        <p style="color: var(--text-secondary);">Loading requests...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Profile Summary -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-user-md"></i>
+                    <h3>Your Profile</h3>
+                </div>
+                <div class="card-body">
+                    <div class="profile-summary">
+                        <div class="profile-avatar-large">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="profile-details">
+                            <h4 id="profileName">-</h4>
+                            <p class="specialization" id="profileSpecialization">-</p>
+                            <p class="hospital"><i class="fas fa-hospital"></i> <span id="profileHospital">-</span></p>
+                            <div class="profile-stats">
+                                <div>
+                                    <span class="number" id="profileExperience">-</span>
+                                    <span class="label">Years Exp.</span>
+                                </div>
+                                <div>
+                                    <span class="number" id="profilePatients">-</span>
+                                    <span class="label">Patients</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline btn-full" id="editProfileBtn">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dashboard-card full-width">
+                <div class="card-header">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Quick Actions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions">
+                        <button class="action-btn">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Schedule Appointment</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-prescription-bottle-alt"></i>
+                            <span>Write Prescription</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-file-medical-alt"></i>
+                            <span>Create Medical Report</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-envelope"></i>
+                            <span>Send Message</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-video"></i>
+                            <span>Start Video Call</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>View Analytics</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-bell"></i>
+            <span id="toastMessage">Notification message</span>
+        </div>
+    </div>
+
+    <div class="modal" id="prescriptionModal">
+        <div class="modal-overlay" onclick="closePrescriptionModal()"></div>
+        <div class="modal-container" style="max-width:600px;max-height:90vh;overflow-y:auto">
+            <button class="modal-close" onclick="closePrescriptionModal()">&times;</button>
+            <div class="appointment-modal-header">
+                <i class="fas fa-prescription"></i>
+                <h2>Write Prescription</h2>
+                <p id="prescriptionPatientLabel">Patient</p>
+            </div>
+
+            <!-- Medicine search -->
+            <div style="padding:0 1.5rem">
+                <label>Search Medicine</label>
+                <input type="text" id="medicineSearch" placeholder="Type medicine name..."
+                    style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;margin:6px 0"
+                    oninput="searchMedicines(this.value)">
+                <div id="medicineDropdown"
+                    style="display:none;border:1px solid var(--border);border-radius:8px;max-height:160px;overflow-y:auto;background:var(--card-bg)">
+                </div>
+
+                <!-- Added medicines list -->
+                <div id="medicinesList" style="margin-top:1rem"></div>
+
+                <label style="margin-top:1rem;display:block">Notes</label>
+                <textarea id="prescriptionNotes" rows="3"
+                    style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;resize:vertical"
+                    placeholder="Additional notes..."></textarea>
+
+                <button class="btn btn-primary btn-full" style="margin:1rem 0" onclick="submitPrescription()">
+                    <i class="fas fa-paper-plane"></i> Send Prescription
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─── Prescription modal state ─────────────────────────────────────────────────
+        let prescriptionPatientId = null;
+        let prescriptionAppointId = null;
+        let allMedicines = [];   // cached from /medicines/all
+        let selectedMedicines = [];   // [{name, dosage, duration, frequency}]
+
+        async function openPrescriptionModal(patientId, appointmentId) {
+            prescriptionPatientId = patientId;
+            prescriptionAppointId = appointmentId;
+            selectedMedicines = [];
+
+            document.getElementById('prescriptionPatientLabel').textContent = `Patient #${patientId}`;
+            document.getElementById('prescriptionNotes').value = '';
+            document.getElementById('medicineSearch').value = '';
+            document.getElementById('medicineDropdown').style.display = 'none';
+            renderSelectedMedicines();
+
+            // Load medicine list once
+            if (!allMedicines.length) {
+                try {
+                    const res = await fetch(`${API}/medicines/all`, { headers: authHeaders() });
+                    const data = await res.json();
+                    
+                    allMedicines = Array.isArray(data) ? data : (data.medicines || []);
+                } catch (err) {
+                    console.error('Failed to load medicines', err);
+                    allMedicines = [];
+                }
+            }
+
+            document.getElementById('prescriptionModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePrescriptionModal() {
+            document.getElementById('prescriptionModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ─── Medicine search dropdown ─────────────────────────────────────────────────
+        function searchMedicines(query) {
+            const dd = document.getElementById('medicineDropdown');
+            if (!query.trim()) { dd.style.display = 'none'; return; }
+            const needle = query.toLowerCase();
+
+            const matches = allMedicines.filter(m => {
+                const name = (m.name || '').toLowerCase();
+                const composition = (m.composition || '').toLowerCase();
+                const dosageForm = (m.dosageForm || '').toLowerCase();
+                const manufacturer = (m.manufacturer || '').toLowerCase();
+                return name.includes(needle)
+                    || composition.includes(needle)
+                    || dosageForm.includes(needle)
+                    || manufacturer.includes(needle);
+            }).slice(0, 8);
+
+            if (!matches.length) { dd.style.display = 'none'; return; }
+
+            dd.style.display = 'block';
+            dd.innerHTML = matches.map(m => `
+    <div data-name="${m.name}" onclick="selectMedicine(this.dataset.name)"
+      style="padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--border)"
+      onmouseover="this.style.background='var(--hover)'"
+      onmouseout="this.style.background=''">
+      <strong>${m.name}</strong>
+      <span style="font-size:12px;color:var(--text-secondary)"> · ${m.dosageForm || ''}</span>
+    </div>`).join('');
+        }
+
+        function selectMedicine(name) {
+            // Add with blank dosage/duration — doctor fills these in
+
+            if (selectedMedicines.find(m => m.name === name)) {
+                showDashboardToast(`${name} already added`, 'info');
+            } else {
+                selectedMedicines.push({ name, dosage: '', duration: '', frequency: 'Once daily' });
+                renderSelectedMedicines();
+            }
+            document.getElementById('medicineSearch').value = '';
+            document.getElementById('medicineDropdown').style.display = 'none';
+        }
+
+        function renderSelectedMedicines() {
+            const container = document.getElementById('medicinesList');
+
+
+            if (!selectedMedicines.length) {
+                container.innerHTML = '<p style="color:var(--text-secondary);font-size:13px">No medicines added yet.</p>';
+                return;
+            }
+            container.innerHTML = selectedMedicines.map((m, i) => `
+    <div style="border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>${m.name}</strong>
+        <button onclick="removeMedicine(${i})"
+          style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px">
+        <div>
+          <label style="font-size:11px;color:var(--text-secondary)">Dosage</label>
+          <input value="${m.dosage}" placeholder="e.g. 500mg"
+            oninput="selectedMedicines[${i}].dosage=this.value"
+            style="width:100%;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-secondary)">Frequency</label>
+          <select onchange="selectedMedicines[${i}].frequency=this.value"
+            style="width:100%;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+            ${['Once daily', 'Twice daily', 'Thrice daily', 'SOS', 'As needed']
+                    .map(f => `<option ${f === m.frequency ? 'selected' : ''}>${f}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-secondary)">Duration</label>
+          <input value="${m.duration}" placeholder="e.g. 5 days"
+            oninput="selectedMedicines[${i}].duration=this.value"
+            style="width:100%;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+        </div>
+      </div>
+    </div>`).join('');
+        }
+
+        function removeMedicine(index) {
+            selectedMedicines.splice(index, 1);
+            renderSelectedMedicines();
+        }
+
+        // ─── Submit prescription ──────────────────────────────────────────────────────
+        async function submitPrescription() {
+            if (!selectedMedicines.length) {
+                showDashboardToast('Add at least one medicine', 'error'); return;
+            }
+            const invalid = selectedMedicines.find(m => !m.dosage || !m.duration);
+            if (invalid) {
+                showDashboardToast(`Fill dosage & duration for ${invalid.name}`, 'error'); return;
+            }
+
+            try {
+                const res = await fetch(`${API}/prescriptions/add`, {
+                    method: 'POST',
+                    headers: authHeaders(),
+                    body: JSON.stringify({
+                        patientId: prescriptionPatientId,
+                        doctorId: doctor.id,
+                        medicines: selectedMedicines,
+                        notes: document.getElementById('prescriptionNotes').value
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success || data.message?.includes('success')) {
+                    showDashboardToast('Prescription sent!', 'success');
+                    closePrescriptionModal();
+                    loadPrescriptions(); // refresh pending list
+                } else {
+                    showDashboardToast(data.message || 'Failed to send', 'error');
+                }
+            } catch (err) {
+                showDashboardToast('Server error', 'error');
+            }
+        }
+
+        // Wire up "Write New Prescription" quick button
+        document.getElementById('writePrescriptionBtn')?.addEventListener('click', () => {
+            const pid = prompt('Enter Patient ID:');
+            if (pid) openPrescriptionModal(parseInt(pid), null);
+        });
+    </script>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // ── Auth guard ──────────────────────────────────────────────────────────
+        const currentUser = localStorage.getItem('curelex-current-user');
+        if (!currentUser) {
+            window.location.href = '../index.html';
+        }
+
+        const doctor = JSON.parse(currentUser);
+        const token = localStorage.getItem('token');
+        const API = 'http://localhost:5000/api';
+
+        // ── Helpers ─────────────────────────────────────────────────────────────
+        function authHeaders() {
+            return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+        }
+
+        function setText(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val ?? '-';
+        }
+
+        function showDashboardToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const tm = document.getElementById('toastMessage');
+            if (!t || !tm) return;
+            tm.textContent = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 4000);
+        }
+
+        function formatTime(dateStr) {
+            if (!dateStr) return '-';
+            return new Date(dateStr).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // ── Logout ───────────────────────────────────────────────────────────────
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            localStorage.removeItem('curelex-current-user');
+            localStorage.removeItem('token');
+            window.location.href = '../index.html';
+        });
+
+        // ── Load doctor profile ──────────────────────────────────────────────────
+        async function loadDoctorProfile() {
+            try {
+                
+                const res = await fetch(`${API}/doctors/${doctor.id}`, { headers: authHeaders() });
+                const data = await res.json();
+                const d = data.doctor || data;
+                
+
+                document.getElementById('doctorName').textContent = 'Welcome, Dr. ' + (d.name || doctor.name);
+                setText('profileName', 'Dr. ' + d.name);
+                setText('profileSpecialization', d.specialization);
+                setText('profileHospital', d.regState || 'N/A');
+                setText('profileExperience', (d.experience ?? '-') + '+');
+                setText('profilePatients', (d.patientsHandeled ?? '-') + '+');
+            } catch (err) {
+                // Fallback to stored data
+                document.getElementById('doctorName').textContent = 'Welcome, Dr. ' + doctor.name;
+                setText('profileName', 'Dr. ' + doctor.name);
+                setText('profileSpecialization', doctor.specialization);
+                setText('profileHospital', doctor.hospital || 'N/A');
+                setText('profileExperience', (doctor.experience ?? '-') + '+');
+                setText('profilePatients', (doctor.patientsHandeled ?? '-') + '+');
+            }
+        }
+
+        // ── Load today's appointments ────────────────────────────────────────────
+        let allApprovedAppointments = [];
+        async function loadAllApprovedAppointments() {
+            try {
+                const res = await fetch(`${API}/appointments/doctor/${doctor.id}`, {
+                    headers: authHeaders()
+                });
+                const data = await res.json();
+                const all = data.appointments || [];
+
+                // Only approved ones matter for schedule/stats
+                allApprovedAppointments = all.filter(a => a.doctorApproved === true);
+
+                renderTodaySchedule();
+                renderAppointmentStats();
+            } catch (err) {
+                console.error('loadAllApprovedAppointments:', err);
+            }
+        }
+
+        // ── Today's schedule — filter from cached list ────────────────────────────────
+        function renderTodaySchedule() {
+            const container = document.getElementById('scheduleTimeline');
+            const todayStr = new Date().toDateString();
+
+            const todayAppts = allApprovedAppointments
+                .filter(a => new Date(a.appointmentTime).toDateString() === todayStr)
+                .sort((a, b) => new Date(a.appointmentTime) - new Date(b.appointmentTime));
+
+            if (!todayAppts.length) {
+                container.innerHTML = '<p style="color:var(--text-secondary)">No appointments scheduled for today.</p>';
+                return;
+            }
+
+            const now = new Date();
+            container.innerHTML = todayAppts.map(appt => {
+                const aptTime = new Date(appt.appointmentTime);
+                // classify: past=completed, within 15min=current, future=upcoming
+                const diffMin = (aptTime - now) / 60000;
+                const statusClass = diffMin < -30 ? 'completed'
+                    : diffMin <= 15 ? 'current'
+                        : 'upcoming';
+                const label = statusClass === 'completed' ? 'Completed'
+                    : statusClass === 'current' ? 'Now'
+                        : 'Upcoming';
+                const btnClass = statusClass === 'current' ? 'btn-primary' : 'btn-outline';
+                const btnLabel = statusClass === 'current'
+                    ? '<i class="fas fa-video"></i> Join'
+                    : '<i class="fas fa-prescription"></i> Prescribe';
+
+                return `
+  <div class="schedule-item ${statusClass}">
+    <div class="schedule-time">${formatTime(appt.appointmentTime)}</div>
+    <div class="schedule-info">
+      <h4>Patient #${appt.patientId}</h4>
+      <p>${appt.symptoms || 'Consultation'}</p>
+      <span class="status ${statusClass}">${label}</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      ${appt.meetingLink ? `
+        <button class="btn btn-primary btn-sm"
+          onclick="window.open('${appt.meetingLink}','_blank')">
+          <i class="fas fa-video"></i> Join
+        </button>` : ''}
+      <button class="btn btn-outline btn-sm"
+        onclick="openPrescriptionModal(${appt.patientId}, ${appt.id})">
+        <i class="fas fa-prescription"></i> Prescribe
+      </button>
+    </div>
+  </div>`;
+            }).join('');
+        }
+
+        // ── Stats derived from cached list — no extra API call ────────────────────────
+        function renderAppointmentStats() {
+            const todayStr = new Date().toDateString();
+            const now = new Date();
+            const thisMonth = now.getMonth();
+            const thisYear = now.getFullYear();
+
+            const todayCount = allApprovedAppointments
+                .filter(a => new Date(a.appointmentTime).toDateString() === todayStr).length;
+
+            const uniquePatients = [...new Set(allApprovedAppointments.map(a => a.patientId))].length;
+
+            const newThisMonth = allApprovedAppointments.filter(a => {
+                const d = new Date(a.createdAt);
+                return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+            }).length;
+
+            setText('statTodayAppointments', todayCount);
+            setText('statTotalPatients', uniquePatients);
+            setText('statNewPatients', newThisMonth);
+            setText('profilePatients', uniquePatients + '+');
+        }
+        async function loadTodayAppointments() {
+            loadAllApprovedAppointments();
+        }
+
+        async function handleAppointmentAction(apptId, status) {
+            if (status === 'in-progress') {
+                showDashboardToast('Starting consultation...', 'info');
+            } else {
+                showDashboardToast('Loading appointment details...', 'info');
+            }
+        }
+
+        // ── Load recent patients ─────────────────────────────────────────────────
+        async function loadRecentPatients() {
+            const container = document.getElementById('recentPatientsList');
+
+            // Use appointments for this doctor only and approved ones
+            const recentSource = allApprovedAppointments
+                .filter(a => a.doctorId === doctor.id && a.doctorApproved === true)
+                .sort((a, b) => new Date(b.appointmentTime) - new Date(a.appointmentTime));
+
+            // Deduplicate by patientId, keep most recent appointment per patient
+            const seen = new Map();
+            recentSource.forEach(a => { if (!seen.has(a.patientId)) seen.set(a.patientId, a); });
+
+            const recent = [...seen.values()].slice(0, 5);
+
+            if (!recent.length) {
+                container.innerHTML = '<p style="color:var(--text-secondary)">No patients yet.</p>';
+                return;
+            }
+
+            container.innerHTML = recent.map(a => `
+    <div class="patient-item">
+      <div class="patient-avatar"><i class="fas fa-user"></i></div>
+      <div class="patient-info">
+        <h4>Patient #${a.patientId}</h4>
+        <p>Last: ${formatDate(a.appointmentTime)}</p>
+      </div>
+      <button class="btn btn-outline btn-sm"
+        onclick="openPrescriptionModal(${a.patientId}, null)">Prescribe</button>
+    </div>`).join('');
+        }
+
+        function viewPatient(patientId) {
+            showDashboardToast('Loading patient profile...', 'info');
+        }
+
+        document.getElementById('viewAllPatientsBtn')?.addEventListener('click', () => {
+            showDashboardToast('All patients view coming soon!', 'info');
+        });
+
+        // ── Load prescriptions ───────────────────────────────────────────────────
+        async function loadPrescriptions() {
+            const container = document.getElementById('pendingPrescriptionsList');
+            try {
+                const res = await fetch(`${API}/prescriptions/doctor/${doctor.id}`, { headers: authHeaders() });
+                const data = await res.json();
+                const prescriptions = data.prescriptions || data || [];
+
+                // Only treat records with explicit pending status as pending
+                const pending = prescriptions.filter(p => p.status === 'pending');
+                setText('statPrescriptions', prescriptions.length);
+
+                if (!pending.length) {
+                    container.innerHTML = '<p style="color:var(--text-secondary);">No pending prescriptions.</p>';
+                    return;
+                }
+
+                container.innerHTML = pending.map(p => `
+                    <div class="prescription-item pending">
+                        <div class="prescription-icon"><i class="fas fa-clock"></i></div>
+                        <div class="prescription-info">
+                            <h4>${p.patientName || p.patient?.name || 'Patient'}</h4>
+                            <p>Pending since: ${p.createdAt ? formatDate(p.createdAt) : 'N/A'}</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="writePrescription('${p._id || p.id}')">Write</button>
+                    </div>`).join('');
+            } catch (err) {
+                container.innerHTML = '<p style="color:var(--text-secondary);">Could not load prescriptions.</p>';
+                console.error(err);
+            }
+        }
+
+        function writePrescription(prescriptionId) {
+            showDashboardToast('Opening prescription editor...', 'info');
+        }
+
+        document.getElementById('writePrescriptionBtn')?.addEventListener('click', () => {
+            showDashboardToast('Prescription editor coming soon!', 'info');
+        });
+
+        // ── Load appointment requests (pending/new) ──────────────────────────────
+        async function loadPatientRequests() {
+            const container = document.getElementById('patientRequestsList');
+            try {
+                const res = await fetch(`${API}/appointments/doctor/${doctor.id}/pending`, { headers: authHeaders() });
+                const data = await res.json();
+                const requests = data.appointments || data || [];
+
+                // Count new patients this month
+                const now = new Date();
+                const thisMonth = requests.filter(r => {
+                    const d = new Date(r.createdAt || r.date);
+                    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                });
+                setText('statNewPatients', thisMonth.length);
+
+                if (!requests.length) {
+                    container.innerHTML = '<p style="color:var(--text-secondary);">No new patient requests.</p>';
+                    return;
+                }
+
+                container.innerHTML = requests.map(r => {
+                    const timeAgo = r.createdAt ? timeAgoString(r.createdAt) : 'Recently';
+                    return `
+                        <div class="request-item">
+                            <div class="request-avatar"><i class="fas fa-user"></i></div>
+                            <div class="request-info">
+                                <h4>${r.patientName || r.patient?.name || 'Patient'}</h4>
+                                <p>${r.type || r.reason || 'Consultation'}</p>
+                                <span class="request-time">Requested: ${timeAgo}</span>
+                            </div>
+                            <div class="request-actions">
+                                <button class="btn btn-primary btn-sm" onclick="respondToRequest('${r._id || r.id}', 'accepted')" title="Accept">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-outline btn-sm" onclick="respondToRequest('${r._id || r.id}', 'rejected')" title="Reject">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>`;
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<p style="color:var(--text-secondary);">Could not load requests.</p>';
+                console.error(err);
+            }
+        }
+
+
+
+        async function loadPatientsHandled() {
+            try {
+                const res = await fetch(`${API}/appointments/doctor/${doctor.id}/stats`, { headers: authHeaders() });
+                const data = await res.json();
+                if (data.success) {
+                    // Updates the "Patients" number in the profile card
+                    setText('profilePatients', data.patientsHandled + '+');
+                    // Also update the top stat card if you want total approved there
+                    setText('statTotalPatients', data.patientsHandled);
+                }
+            } catch (err) {
+                console.error('Could not load patients handled:', err);
+            }
+        }
+        function showMeetingLinkCard(link, appointment) {
+            // Remove previous card if any
+            document.getElementById('meetingLinkCard')?.remove();
+
+            const card = document.createElement('div');
+            card.id = 'meetingLinkCard';
+            card.style.cssText = `
+    position:fixed;bottom:80px;right:24px;z-index:9999;
+    background:white;border:1px solid var(--border);
+    border-radius:12px;padding:16px;width:320px;
+    box-shadow:0 4px 24px rgba(0,0,0,0.15)
+  `;
+            card.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px; ">
+      <strong style="font-size:14px">
+        <i class="fas fa-video" style="color:#22c55e"></i> Meeting Ready
+      </strong>
+      <button onclick="document.getElementById('meetingLinkCard').remove()"
+        style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-secondary)">×</button>
+    </div>
+    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">
+      Patient #${appointment?.patientId} ·
+      ${new Date(appointment?.appointmentTime).toLocaleString()}
+    </p>
+    <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:8px;
+                padding:8px 10px;font-size:11px;word-break:break-all;margin-bottom:10px;
+                color:var(--text-secondary)">
+      ${link}
+    </div>
+    <div style="display:flex; gap:8px; ">
+      <button onclick="navigator.clipboard.writeText('${link}');showDashboardToast('Link copied!','success')"
+        class="btn btn-outline btn-sm" style="flex:1">
+        <i class="fas fa-copy"></i> Copy
+      </button>
+      <button onclick="window.open('${link}','_blank')"
+        class="btn btn-primary btn-sm" style="flex:1">
+        <i class="fas fa-video"></i> Join Now
+      </button>
+    </div>
+  `;
+            document.body.appendChild(card);
+
+            // Auto-dismiss after 30s
+            setTimeout(() => card.remove(), 30000);
+        }
+        async function respondToRequest(appointmentId, action) {
+            try {
+                if (action === 'accepted') {
+                    const res = await fetch(`${API}/appointments/${appointmentId}/approve`, {
+                        method: 'PATCH',
+                        headers: authHeaders()
+                    });
+                    const data = await res.json();
+
+                    if (data.success) {
+                        showDashboardToast('Appointment approved ✅', 'success');
+
+                        // Show meeting link right after approval so doctor can copy/open it
+                        if (data.meetingLink) {
+                            showMeetingLinkCard(data.meetingLink, data.appointment);
+                        }
+
+                        loadPatientRequests();
+                        loadPatientsHandled();
+                        await loadAllApprovedAppointments(); // refresh schedule
+                    } else {
+                        showDashboardToast(data.message || 'Approval failed.', 'error');
+                    }
+
+                } else {
+                    const res = await fetch(`${API}/appointments/status/${appointmentId}`, {
+                        method: 'PUT',
+                        headers: authHeaders(),
+                        body: JSON.stringify({ status: 'cancelled' })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        showDashboardToast('Request declined.', 'info');
+                        loadPatientRequests();
+                    } else {
+                        showDashboardToast(data.message || 'Action failed.', 'error');
+                    }
+                }
+            } catch (err) {
+                showDashboardToast('Server error: ' + err.message, 'error');
+            }
+        }
+
+        // ── Quick Actions ────────────────────────────────────────────────────────
+        document.querySelectorAll('.action-btn').forEach((btn, i) => {
+            const actions = [
+                () => showDashboardToast('Schedule appointment coming soon!', 'info'),
+                () => showDashboardToast('Prescription editor coming soon!', 'info'),
+                () => showDashboardToast('Medical report creator coming soon!', 'info'),
+                () => showDashboardToast('Messaging feature coming soon!', 'info'),
+                () => showDashboardToast('Video call feature coming soon!', 'info'),
+                () => showDashboardToast('Analytics coming soon!', 'info'),
+            ];
+            if (actions[i]) btn.addEventListener('click', actions[i]);
+        });
+
+        // ── Utility ──────────────────────────────────────────────────────────────
+        function timeAgoString(dateStr) {
+            const diff = Math.floor((Date.now() - new Date(dateStr)) / 60000);
+            if (diff < 1) return 'Just now';
+            if (diff < 60) return `${diff} min ago`;
+            const hrs = Math.floor(diff / 60);
+            if (hrs < 24) return `${hrs} hour${hrs > 1 ? 's' : ''} ago`;
+            return formatDate(dateStr);
+        }
+
+        // ── Init ─────────────────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadDoctorProfile();
+            await loadAllApprovedAppointments();
+
+            loadRecentPatients();
+            loadPrescriptions();
+            loadPatientRequests();
+            
+        });
+    </script>
+
+</body>
+
+</html>

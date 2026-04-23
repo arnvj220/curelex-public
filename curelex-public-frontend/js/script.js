@@ -12,6 +12,8 @@ const loginBtn = document.getElementById('loginBtn');
 const loginBtnMobile = document.getElementById('loginBtnMobile');
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
+const roleSelectionModal = document.getElementById('roleSelectionModal');
+const roleSelectionClose = document.getElementById('roleSelectionClose');
 const loginModal = document.getElementById('loginModal');
 const loginModalClose = document.getElementById('loginModalClose');
 const patientSignUpModal = document.getElementById('patientSignUpModal');
@@ -128,14 +130,14 @@ function closeAllModals() {
     });
 }
 
-// Login Modal
-loginBtn.addEventListener('click', () => openModal(loginModal));
+// Login Modal - Role Selection
+loginBtn.addEventListener('click', () => openModal(roleSelectionModal));
 loginBtnMobile.addEventListener('click', () => {
     closeMobileMenu();
-    openModal(loginModal);
+    openModal(roleSelectionModal);
 });
-loginModalClose.addEventListener('click', () => closeModal(loginModal));
-loginModal.querySelector('.modal-overlay').addEventListener('click', closeAllModals);
+roleSelectionClose.addEventListener('click', () => closeModal(roleSelectionModal));
+roleSelectionModal.querySelector('.modal-overlay').addEventListener('click', closeAllModals);
 
 // Patient Sign Up Modal
 document.getElementById('patientSignUpLink').addEventListener('click', (e) => {

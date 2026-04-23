@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CURELEX - Your Health, Our Priority</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/auth-pages.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -353,8 +354,36 @@
         </div>
     </footer>
 
+    <!-- Role Selection Modal -->
+    <div class="modal" id="roleSelectionModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-small">
+            <button class="modal-close" id="roleSelectionClose">&times;</button>
+            <div class="auth-header">
+                <h2>Select Login Type</h2>
+                <p>Choose your account type to proceed</p>
+            </div>
+            <div class="role-selection">
+                <a href="html/patient-login.html" class="role-card">
+                    <div class="role-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <h3>Patient</h3>
+                    <p>Access your health records and connect with doctors</p>
+                </a>
+                <a href="html/doctor-login.html" class="role-card">
+                    <div class="role-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Doctor</h3>
+                    <p>Manage appointments and patient consultations</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Login Modal -->
-    <div class="modal" id="loginModal">
+    <div class="modal" id="loginModal" style="display: none;">
         <div class="modal-overlay"></div>
         <div class="modal-container">
             <button class="modal-close" id="loginModalClose">&times;</button>

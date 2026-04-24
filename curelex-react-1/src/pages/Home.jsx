@@ -151,6 +151,7 @@ const Home = () => {
           </Link>
           <ul className="nav-links">
             <li><a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>Home</a></li>
+            <Link to={"/about"}><li>About</li></Link>
             <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection('services'); }}>Services</a></li>
             <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact Us</a></li>
           </ul>

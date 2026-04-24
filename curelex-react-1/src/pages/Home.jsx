@@ -193,7 +193,8 @@ const Home = () => {
           <div className="hero-left">
             <img
               className="hero-bg-img"
-              src="https://media.istockphoto.com/id/998313080/photo/smiling-medical-team-standing-together-outside-a-hospital.jpg?s=612x612&w=0&k=20&c=fXzbjAoStQ_8jTM4TQxbHBEjhETI3vq5_7d_JL19eCA="
+              // src="https://media.istockphoto.com/id/998313080/photo/smiling-medical-team-standing-together-outside-a-hospital.jpg?s=612x612&w=0&k=20&c=fXzbjAoStQ_8jTM4TQxbHBEjhETI3vq5_7d_JL19eCA="
+              src="/assets/front.jpeg"
               alt=""
               onError={(e) => e.target.style.display = 'none'}
             />

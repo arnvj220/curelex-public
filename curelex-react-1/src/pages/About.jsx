@@ -10,66 +10,310 @@ const TEAM = [
   { name: 'Pankaj Pal', role: 'Head – PR', focus: 'Manages communications & media.', img: '/assets/Pankaj Pal-Photoroom.png' },
 ]
 
+const VALUES = [
+  { title: 'Our Vision', desc: 'To simplify healthcare journeys with smart digital solutions.' },
+  { title: 'Patient First', desc: 'Every feature is built around improving patient experience.' },
+  { title: 'Connected Care', desc: 'We connect doctors, hospitals, and patients seamlessly.' },
+]
+
 export default function About() {
   const navigate = useNavigate()
 
   return (
-    <div style={{ fontFamily: "'Poppins', sans-serif", margin: 0, background: '#f9fafb', color: '#1f2937' }}>
-      <div style={{ maxWidth: 1100, margin: 'auto', padding: '60px 20px', position: 'relative' }}>
-        <button onClick={() => navigate(-1)} style={{
-          position: 'absolute', top: 20, right: 20, background: '#2563eb', color: 'white',
-          border: 'none', padding: '8px 16px', borderRadius: 8, fontSize: 14, cursor: 'pointer'
-        }}>← Back</button>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-        <section style={{ textAlign: 'center', marginBottom: 50 }}>
-          <h1 style={{ fontSize: 40, fontWeight: 700, color: '#111827', marginBottom: 15 }}>
-            About <span style={{ color: '#2563eb' }}>Curelex</span>
-          </h1>
-          <p style={{ maxWidth: 700, margin: 'auto', color: '#6b7280', lineHeight: 1.7 }}>
-            At Curelex, we are building a smarter, more connected healthcare ecosystem.
-            Our mission is to make quality healthcare accessible, transparent, and continuous for everyone.
-            By integrating technology with clinical expertise, we bridge the gap between patients,
-            doctors, and healthcare infrastructure.
-          </p>
-        </section>
+        .about-wrapper {
+          font-family: 'Poppins', sans-serif;
+          margin: 0;
+          background: #f9fafb;
+          color: #1f2937;
+        }
 
-        <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 50 }}>
-          {[
-            { title: 'Our Vision', desc: 'To simplify healthcare journeys with smart digital solutions.' },
-            { title: 'Patient First', desc: 'Every feature is built around improving patient experience.' },
-            { title: 'Connected Care', desc: 'We connect doctors, hospitals, and patients seamlessly.' },
-          ].map(c => (
-            <div key={c.title} style={{ background: 'white', padding: 25, borderRadius: 14, border: '1px solid #e5e7eb' }}>
-              <h2 style={{ color: '#2563eb', fontSize: 18 }}>{c.title}</h2>
-              <p>{c.desc}</p>
-            </div>
-          ))}
-        </section>
+        .about-container {
+          max-width: 1100px;
+          margin: auto;
+          padding: 60px 20px;
+          position: relative;
+        }
 
-        <section style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: 30, marginBottom: 10 }}>Meet the Leadership</h2>
-          <p style={{ color: '#6b7280', marginBottom: 30 }}>A multidisciplinary team driving innovation in healthcare.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 25 }}>
-            {TEAM.map(m => (
-              <div key={m.name} style={{
-                background: 'white', padding: 20, borderRadius: 16,
-                border: '1px solid #e5e7eb', textAlign: 'center'
-              }}>
-                <img src={m.img} alt={m.name} style={{ width: 90, height: 90, borderRadius: '50%', objectFit: 'cover', marginBottom: 10 }} />
-                <h3 style={{ margin: '8px 0 4px' }}>{m.name}</h3>
-                <p style={{ color: '#2563eb', fontWeight: 500, fontSize: 14, margin: '4px 0' }}>{m.role}</p>
-                <p style={{ fontSize: 14, color: '#6b7280' }}>{m.focus}</p>
+        .back-btn {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: #2563eb;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 8px;
+          font-size: 14px;
+          cursor: pointer;
+          font-family: 'Poppins', sans-serif;
+          white-space: nowrap;
+        }
+
+        /* Hero */
+        .about-hero {
+          text-align: center;
+          margin-bottom: 50px;
+          padding-top: 10px;
+        }
+
+        .about-hero h1 {
+          font-size: clamp(26px, 6vw, 40px);
+          font-weight: 700;
+          color: #111827;
+          margin-bottom: 15px;
+        }
+
+        .about-hero h1 span {
+          color: #2563eb;
+        }
+
+        .about-hero p {
+          max-width: 700px;
+          margin: auto;
+          color: #6b7280;
+          line-height: 1.7;
+          font-size: clamp(13px, 3.5vw, 16px);
+        }
+
+        /* Values grid */
+        .values-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          margin-bottom: 50px;
+        }
+
+        .value-card {
+          background: white;
+          padding: 25px;
+          border-radius: 14px;
+          border: 1px solid #e5e7eb;
+        }
+
+        .value-card h2 {
+          color: #2563eb;
+          font-size: 17px;
+          margin: 0 0 8px;
+        }
+
+        .value-card p {
+          margin: 0;
+          font-size: 14px;
+          color: #374151;
+          line-height: 1.6;
+        }
+
+        /* Team section */
+        .team-section {
+          text-align: center;
+        }
+
+        .team-section h2 {
+          font-size: clamp(22px, 5vw, 30px);
+          margin-bottom: 10px;
+        }
+
+        .team-section > p {
+          color: #6b7280;
+          margin-bottom: 30px;
+          font-size: clamp(13px, 3.5vw, 15px);
+        }
+
+        .team-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 25px;
+        }
+
+        .team-card {
+          background: white;
+          padding: 20px;
+          border-radius: 16px;
+          border: 1px solid #e5e7eb;
+          text-align: center;
+        }
+
+        .team-card img {
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-bottom: 10px;
+        }
+
+        .team-card h3 {
+          margin: 8px 0 4px;
+          font-size: 15px;
+        }
+
+        .team-card .role {
+          color: #2563eb;
+          font-weight: 500;
+          font-size: 13px;
+          margin: 4px 0;
+        }
+
+        .team-card .focus {
+          font-size: 13px;
+          color: #6b7280;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        /* Footer */
+        .about-footer {
+          background: #111827;
+          padding: 20px;
+          margin-top: 60px;
+        }
+
+        .about-footer div {
+          text-align: center;
+          font-size: 13px;
+          color: #6b7280;
+        }
+
+        /* ── Tablet ── */
+        @media (max-width: 768px) {
+          .about-container {
+            padding: 60px 16px 40px;
+          }
+
+          .values-grid {
+            grid-template-columns: 1fr;
+            gap: 14px;
+          }
+
+          .team-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+          }
+
+          .team-card img {
+            width: 72px;
+            height: 72px;
+          }
+        }
+
+        /* ── Mobile: horizontal scroll ── */
+        @media (max-width: 480px) {
+          .about-container {
+            padding: 56px 14px 36px;
+          }
+
+          .back-btn {
+            top: 14px;
+            right: 14px;
+            padding: 7px 13px;
+            font-size: 13px;
+          }
+
+          .about-hero {
+            margin-bottom: 36px;
+          }
+
+          .values-grid {
+            grid-template-columns: 1fr;
+            margin-bottom: 36px;
+          }
+
+          /* Scroll wrapper */
+          .team-scroll-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -14px;
+            padding: 0 14px 12px;
+            scrollbar-width: none;
+          }
+
+          .team-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+          }
+
+          .team-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 12px;
+            width: max-content;
+          }
+
+          .team-card {
+            width: 185px;
+            flex-shrink: 0;
+            padding: 20px 16px;
+            border-radius: 16px;
+          }
+
+          .team-card img {
+            width: 82px;
+            height: 82px;
+          }
+
+          .team-card h3 {
+            font-size: 14px;
+            margin: 8px 0 4px;
+          }
+
+          .team-card .role {
+            font-size: 12px;
+          }
+
+          .team-card .focus {
+            font-size: 12px;
+          }
+        }
+      `}</style>
+
+      <div className="about-wrapper">
+        <div className="about-container">
+          <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
+
+          <section className="about-hero">
+            <h1>About <span>Curelex</span></h1>
+            <p>
+              At Curelex, we are building a smarter, more connected healthcare ecosystem.
+              Our mission is to make quality healthcare accessible, transparent, and continuous for everyone.
+              By integrating technology with clinical expertise, we bridge the gap between patients,
+              doctors, and healthcare infrastructure.
+            </p>
+          </section>
+
+          <section className="values-grid">
+            {VALUES.map(c => (
+              <div key={c.title} className="value-card">
+                <h2>{c.title}</h2>
+                <p>{c.desc}</p>
               </div>
             ))}
-          </div>
-        </section>
-      </div>
+          </section>
 
-      <footer style={{ background: '#111827', padding: '20px', marginTop: 60 }}>
-        <div style={{ textAlign: 'center', fontSize: 13, color: '#6b7280' }}>
-          © 2026 Curelex. All rights reserved.
+          <section className="team-section">
+            <h2>Meet the Leadership</h2>
+            <p>A multidisciplinary team driving innovation in healthcare.</p>
+            <div className="team-scroll-wrapper">
+              <div className="team-grid">
+                {TEAM.map(m => (
+                  <div key={m.name} className="team-card">
+                    <img src={m.img} alt={m.name} />
+                    <h3>{m.name}</h3>
+                    <p className="role">{m.role}</p>
+                    <p className="focus">{m.focus}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
-      </footer>
-    </div>
+
+        <footer className="about-footer">
+          <div>© 2026 Curelex. All rights reserved.</div>
+        </footer>
+      </div>
+    </>
   )
 }
